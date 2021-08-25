@@ -3,6 +3,8 @@ name: Docker Image CI
 on:
   push:
     branches: [ api_cli ]
+  pull_request:
+    branches: [ api_cli ]
 
 jobs:
   build:
@@ -32,7 +34,7 @@ jobs:
             if [[ $? == 0 ]]; then
               tag=nightly-$(date '+%Y%m%d')
               REPO=runkecheng 
-              docker build -t . --file Dockerfile --tag ${REPO}/mysql-operator:${tag}
+              docker build . --file Dockerfile --tag ${REPO}/mysql-operator:${tag}
             else
               exit -1
             fi
