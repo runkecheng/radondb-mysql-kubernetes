@@ -594,7 +594,7 @@ func (s *StatefulSetSyncer) backupIsRunning(ctx context.Context) (bool, error) {
 		if bcp.ClusterName != s.ClusterName {
 			continue
 		}
-		if bcp.Status.Completed != true {
+		if !bcp.Status.Completed {
 			return true, nil
 		}
 	}
