@@ -158,7 +158,7 @@ func NewInitConfig() *Config {
 		StatefulSetName: getEnvValue("STATEFULSET_NAME"),
 		Replicas:        int32(replicas),
 
-		RootPassword: getEnvValue("MYSQL_ROOT_PASSWORD"),
+		RootPassword:         getEnvValue("MYSQL_ROOT_PASSWORD"),
 		InternalRootPassword: getEnvValue("INTERNAL_ROOT_PASSWORD"),
 
 		Database: getEnvValue("MYSQL_DATABASE"),
@@ -200,10 +200,10 @@ func NewBackupConfig() *Config {
 	}
 
 	return &Config{
-		NameSpace:   getEnvValue("NAMESPACE"),
-		ServiceName: getEnvValue("SERVICE_NAME"),
-		Replicas:    int32(replicas),
-		ClusterName: getEnvValue("SERVICE_NAME"),
+		NameSpace:    getEnvValue("NAMESPACE"),
+		ServiceName:  getEnvValue("SERVICE_NAME"),
+		Replicas:     int32(replicas),
+		ClusterName:  getEnvValue("SERVICE_NAME"),
 		RootPassword: getEnvValue("MYSQL_ROOT_PASSWORD"),
 
 		BackupUser:     getEnvValue("BACKUP_USER"),
