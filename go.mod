@@ -15,6 +15,7 @@ require (
 	github.com/presslabs/controller-util v0.3.0
 	github.com/spf13/cobra v1.1.1
 	github.com/stretchr/testify v1.7.0
+	honnef.co/go/tools v0.2.1 // indirect
 	k8s.io/api v0.21.2
 	k8s.io/apimachinery v0.21.2
 	k8s.io/client-go v0.21.2
