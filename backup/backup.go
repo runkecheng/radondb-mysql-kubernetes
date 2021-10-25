@@ -35,6 +35,8 @@ type Backup struct {
 
 
 
+
+
 // New returns a wraper object over Backup
 func New(backup *v1alhpa1.Backup) *Backup {
 	return &Backup{
