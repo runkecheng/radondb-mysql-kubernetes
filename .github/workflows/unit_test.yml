@@ -1,10 +1,10 @@
-name: codecov
+name: unit test
 
 on: [push, pull_request]
 
 jobs:
 
-  codecov:
+  unittest:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Go
@@ -15,6 +15,5 @@ jobs:
     - name: Check out source code
       uses: actions/checkout@v1
 
-    - uses: codecov/codecov-action@v2
-      with:
-        flags: unittests
+    - name: make test
+      run: make test
