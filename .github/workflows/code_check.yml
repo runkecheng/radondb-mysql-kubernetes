@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: run go fmt
-      run: d="$(gofmt -d ../../)" && if [ -n "$d" ]; then echo "Format error:" ; echo "$d"; exit 1; fi      
+      run: gofmt -d ./...
 
 
   checkcrd:
