@@ -27,10 +27,13 @@ import (
 
 var log = logf.Log.WithName("backup")
 
-// Backup is a type wrapper over Backup that contains the Business logic
+// backup is a type wrapper over Backup that contains the Business logic, test gofmt
 type Backup struct {
 	*v1alhpa1.Backup
 }
+
+
+
 
 // New returns a wraper object over Backup
 func New(backup *v1alhpa1.Backup) *Backup {
