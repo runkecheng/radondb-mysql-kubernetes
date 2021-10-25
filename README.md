@@ -25,22 +25,22 @@ RadonDB MySQL Kubernetes supports deployment and management of RaodnDB MySQL clu
     - Leader-follower switching in second-level
     - Strongly consistent data for cluster switching
 - Cluster management
-- Monitoring and alerting
+- [Monitoring and alerting](docs/deploy_monitoring.md)
+- [Backups](docs/deploy_backup_restore_s3.md)
 - Logs
-- Account management
+- [Account management](docs/mgt_mysqluser.md)
 
 ## Quick Start
 
-- [Deploy RadonDB MySQL on Kubernetes](docs/Kubernetes/deploy_radondb-mysql_on_kubernetes.md)
-- [Deploy RadonDB MySQL through git on Kubesphere](docs/KubeSphere/deploy_radondb-mysql_on_kubesphere.md)
-- [Deploy RadonDB MySQL through helm repo on Kubesphere](docs/KubeSphere/deploy_radondb-mysql_on_kubesphere_repo.md)
-- [Deploy RadonDB MySQL through Appstore of KubeSphere](docs/KubeSphere/deploy_radondb-mysql_on_kubesphere_appstore.md)
+### Operator
+
+- [Deploy RadonDB MySQL on Kubernetes](docs/kubernetes/deploy_radondb-mysql_operator_on_k8s.md)
 
 ## Roadmap
 
 | Release | Features  | Mode |
 |------|--------|--------|
-| 1.0 | High availability <br>  Non-centralized automatic leader election <br>  Second-level switching <br>  Strongly consistent data <br> Cluster management <br> Monitoring and alerting <br> Logs <br> Account management | Helm |
+| 1.0 | Cluster management <br> Monitoring and alerting <br> Logs <br> Account management | Helm |
 | 2.0 | Node management <br> Automatic expansion and shrinkage capacity <br> Upgrade <br> Backups and Restorations <br> Automatic failover <br> Automatic rebuild node <br> Automatic restart service（all or signal node）<br> Account management（API）<br> Migrating Data online | Operator |
 | 3.0 | Automatic O&M <br> Multiple node roles <br> Disaster Recovery <br> SSL transmission encryption  | Operator |
 
@@ -50,18 +50,22 @@ RadonDB MySQL Kubernetes supports deployment and management of RaodnDB MySQL clu
 
 ## License
 
-RadonDB MySQL is released under the Apache 2.0, see [LICENSE](./LICENSE).
+RadonDB MySQL is released under the Apache 2.0, see [License](./LICENSE).
 
 ## Discussion and Community
 
 - Forum
 
-    The RadonDB MySQL topic is in [Kubesphere Community](https://kubesphere.com.cn/forum/t/radondb).
+    The RadonDB MySQL topic is in [KubeSphere Community](https://kubesphere.com.cn/forum/t/radondb).
 
-- WeChat group
-    
-    To enter the wechat group of radondb community, please add administrator wechat.
-    
-    ![](docs/images/wechat_admin.jpg)
+- Please pay attention to our official account.
 
+  ![](docs/images/vx_code_258.jpg)
+
+---
+<p align="center">
+<br/><br/>
 Please submit any RadonDB MySQL bugs, issues, and feature requests to RadonDB MySQL GitHub Issue.
+<br/>
+</a>
+</p>

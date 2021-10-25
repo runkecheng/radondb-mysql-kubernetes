@@ -68,8 +68,8 @@ kubectl delete pvc data-my-release-radondb-mysql-2
 | `replicaCount`                               | Pod 数目                                                 | `3`                                     |
 | `busybox.image`                              | `busybox` 镜像库地址                                       | `busybox`                               |
 | `busybox.tag`                                | `busybox` 镜像标签                                        | `1.32`                                   |
-| `mysql.image`                                | `mysql` 镜像库地址                                         | `xenondb/percona`                     |
-| `mysql.tag`                                  | `mysql` 镜像标签                                          | `5.7.33`                               |
+| `mysql.image`                                | `mysql` 镜像库地址                                         | `radondb/percona`                     |
+| `mysql.tag`                                  | `mysql` 镜像标签                                          | `5.7.34`                               |
 | `mysql.allowEmptyRootPassword`               | 如果为 `true`，允许 root 账号密码为空                       | `true`                                  |
 | `mysql.mysqlRootPassword`                    | `root` 用户密码                                          |                                          |
 | `mysql.mysqlReplicationPassword`             | `qc_repl` 用户密码                                         | `Repl_123`, 如果没有设置则随机12个字符      |
@@ -91,7 +91,7 @@ kubectl delete pvc data-my-release-radondb-mysql-2
 | `mysql.readinessProbe.failureThreshold`      | 就绪探测失败的重试次数，重试一定次数后将认为容器未就绪              | 3                                      |
 | `mysql.extraEnvVars`                         | 其他作为字符串传递给 `tpl` 函数的环境变量                       |                                         |
 | `mysql.resources`                            | `MySQL` 的资源请求/限制                                      | 内存: `256Mi`, CPU: `100m`              |
-| `xenon.image`                                | `xenon` 镜像库地址                                          | `xenondb/xenon`                       |
+| `xenon.image`                                | `xenon` 镜像库地址                                          | `radondb/xenon`                       |
 | `xenon.tag`                                  | `xenon` 镜像标签                                            | `1.1.5-alpha`                          |
 | `xenon.args`                                 | 要传递到 xenon 容器的其他参数                                 | `[]`                                   |
 | `xenon.extraEnvVars`                         | 其他作为字符串传递给 `tpl` 函数的环境变量                        |                                        |
@@ -159,7 +159,7 @@ $ helm install my-release -f values.yaml .
 
 ## 持久化  
 
-[MySQL](https://hub.docker.com/repository/docker/zhyass/percona57) 镜像在容器路径 `/var/lib/mysql` 中存储 MYSQL 数据和配置。
+[MySQL](https://hub.docker.com/repository/docker/radondb/percona) 镜像在容器路径 `/var/lib/mysql` 中存储 MYSQL 数据和配置。
 
 默认情况下，会创建一个 PersistentVolumeClaim 并将其挂载到指定目录中。 若想禁用此功能，您可以更改 `values.yaml` 禁用持久化，改用 emptyDir。 
 
