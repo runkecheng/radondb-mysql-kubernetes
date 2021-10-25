@@ -92,7 +92,8 @@ func (r *MysqlClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request
 		if !reflect.DeepEqual(status, instance.Status) {
 			sErr := r.Status().Update(ctx, instance.Unwrap())
 			if sErr != nil {
-				log.Error(sErr, "failed to update cluster status")
+				// test staticcheck
+				log.Error(sErr, "Failed to update cluster status")
 			}
 		}
 	}()
