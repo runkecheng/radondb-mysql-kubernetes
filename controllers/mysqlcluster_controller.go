@@ -69,9 +69,10 @@ type MysqlClusterReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.9.2/pkg/reconcile
 func (r *MysqlClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	testci := "test staticcheck"
 	log := log.FromContext(ctx).WithName("controllers").WithName("MysqlCluster")
 	instance := mysqlcluster.New(&apiv1alpha1.MysqlCluster{})
-
+	
 	err := r.Get(ctx, req.NamespacedName, instance.Unwrap())
 	if err != nil {
 		if errors.IsNotFound(err) {

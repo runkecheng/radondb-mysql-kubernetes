@@ -30,7 +30,7 @@ var (
 	auditlogMysqlCluster = mysqlv1alpha1.MysqlCluster{
 		Spec: mysqlv1alpha1.MysqlClusterSpec{
 			PodSpec: mysqlv1alpha1.PodSpec{
-				BusyboxImage: "busybox",
+				BusyboxImage: "test unit test",
 				Resources: corev1.ResourceRequirements{
 					Limits:   nil,
 					Requests: nil,

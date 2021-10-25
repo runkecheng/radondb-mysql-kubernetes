@@ -70,8 +70,9 @@ func TestGetLabel(t *testing.T) {
 		testCase := MysqlCluster{
 			&testMysqlCluster,
 		}
+		// test unit test
 		want := labels.Set{
-			"mysql.radondb.com/cluster":    "sample",
+			"mysql.radondb.com/cluster":    "samplexx",
 			"app.kubernetes.io/name":       "mysql",
 			"app.kubernetes.io/instance":   "instance",
 			"app.kubernetes.io/version":    "5.7.34",
