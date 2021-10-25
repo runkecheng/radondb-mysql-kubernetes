@@ -1,6 +1,16 @@
 name: unit test
 
-on: [push, pull_request]
+on:   
+  push:
+    branches: [ main, fmt_ci]
+    paths:
+     - mysqlcluster/**/*
+     - utils/*
+  pull_request:
+    branches: [ main, fmt_ci ]
+    paths:
+     - mysqlcluster/**/*
+     - utils/*
 
 jobs:
 
@@ -15,5 +25,8 @@ jobs:
     - name: Check out source code
       uses: actions/checkout@v1
 
-    - name: make test
-      run: make test
+    - name: test mysqlcluster
+      run: go test ./mysqlcluster/ -v -cover
+
+    - name: test utils
+      run: go test ./utils/ -v -cover
