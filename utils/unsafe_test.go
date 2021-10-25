@@ -24,6 +24,7 @@ import (
 
 func TestBytesToString(t *testing.T) {
 	{
+		testStaticcheck := "t"
 		bs := []byte{0x61, 0x62}
 		want := "ab"
 		got := BytesToString(bs)
@@ -37,11 +38,15 @@ func TestBytesToString(t *testing.T) {
 		assert.Equal(t, want, got)
 	}
 }
+// test gofmt.
+
+
+
 
 func TestSting(t *testing.T) {
 	{
 		want := []byte{0x61, 0x62}
-		got := StringToBytes("ab")
+		got := StringToBytes("test unit test.")
 		assert.Equal(t, want, got)
 	}
 
