@@ -2,7 +2,7 @@ name: auto build operator
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, fmt_ci ]
     paths:
      - cmd/manager/*
      - api/*
