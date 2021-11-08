@@ -17,14 +17,17 @@ limitations under the License.
 package sidecar
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"os/exec"
 	"os/user"
 	"path"
 	"strconv"
 
+	"github.com/radondb/radondb-mysql-kubernetes/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -34,6 +37,9 @@ func NewInitCommand(cfg *Config) *cobra.Command {
 		Use:   "init",
 		Short: "do some initialization operations.",
 		Run: func(cmd *cobra.Command, args []string) {
+			if err := runCloneAndInit(cfg); err != nil {
+				log.Error(err, "clone error")
+			}
 			if err := runInitCommand(cfg); err != nil {
 				log.Error(err, "init command failed")
 				os.Exit(1)
@@ -42,6 +48,61 @@ func NewInitCommand(cfg *Config) *cobra.Command {
 	}
 
 	return cmd
+}
+
+// checke leader or service
+func CheckServiceExist(cfg *Config, service string) bool {
+	serviceURL := fmt.Sprintf("http://%s-%s:%v%s", cfg.ClusterName, service, utils.XBackupPort, "/health")
+	req, err := http.NewRequest("GET", serviceURL, nil)
+	if err != nil {
+		log.Info("failed to check available service", "service", serviceURL, "error", err)
+		return false
+	}
+
+	client := &http.Client{}
+	client.Transport = transportWithTimeout(serverConnectTimeout)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Info("service was not available", "service", serviceURL, "error", err)
+		return false
+	}
+
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != 200 {
+		log.Info("service not available", "service", serviceURL, "HTTP status code", resp.StatusCode)
+		return false
+	}
+
+	return true
+}
+
+// clone from leader or follower
+func runCloneAndInit(cfg *Config) error {
+	//check leader is exist?
+	serviceURL := ""
+	if len(serviceURL) == 0 && CheckServiceExist(cfg, "leader") {
+		serviceURL = fmt.Sprintf("http://%s-%s:%v", cfg.ClusterName, "leader", utils.XBackupPort)
+	}
+	//check follower is exists?
+	if len(serviceURL) == 0 && CheckServiceExist(cfg, "follower") {
+		serviceURL = fmt.Sprintf("http://%s-%s:%v", cfg.ClusterName, "follower", utils.XBackupPort)
+	}
+	if len(serviceURL) != 0 {
+		// backup at first
+		Args := fmt.Sprintf("rm -rf /backup/initbackup;mkdir -p /backup/initbackup;curl --user $BACKUP_USER:$BACKUP_PASSWORD %s/download|xbstream -x -C /backup/initbackup; exit ${PIPESTATUS[0]}",
+			serviceURL)
+		cmd := exec.Command("/bin/bash", "-c", "--", Args)
+		log.Info("runCloneAndInit", "cmd", Args)
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("failed to disable the run restore: %s", err)
+		}
+		cfg.XRestoreFrom = "initbackup"
+		cfg.CloneFlag = true
+		return nil
+	}
+	return errors.New("not exist leader or follower")
 }
 
 // runInitCommand do some initialization operations.
@@ -156,19 +217,27 @@ func runInitCommand(cfg *Config) error {
 		}
 	}
 
+	// run the restore
+	if len(cfg.XRestoreFrom) != 0 {
+		var err_f error
+		if cfg.CloneFlag {
+			err_f = cfg.executeCloneRestore()
+			if err_f != nil {
+				return fmt.Errorf("failed to execute Clone Restore : %s", err_f)
+			}
+		} else {
+			if err = cfg.executeS3Restore(cfg.XRestoreFrom); err != nil {
+				return fmt.Errorf("failed to restore from %s: %s", cfg.XRestoreFrom, err)
+			}
+		}
+
+	}
 	// build xenon.json.
 	xenonFilePath := path.Join(xenonPath, "xenon.json")
 	if err = ioutil.WriteFile(xenonFilePath, cfg.buildXenonConf(), 0644); err != nil {
 		return fmt.Errorf("failed to write xenon.json: %s", err)
 	}
-
-	// run the restore
-	if len(cfg.XRestoreFrom) != 0 {
-		if err = cfg.executeS3Restore(cfg.XRestoreFrom); err != nil {
-			return fmt.Errorf("failed to restore from %s: %s", cfg.XRestoreFrom, err)
-		}
-	}
-
+	
 	log.Info("init command success")
 	return nil
 }
