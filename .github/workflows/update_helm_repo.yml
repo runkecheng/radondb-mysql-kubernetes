@@ -67,14 +67,14 @@ jobs:
           else
             printf "%s\n" "$diffs"
           fi
-        - name: Commit and push
-          if: env.NO_DIFF != '1'
-          uses: github-actions-x/commit@v2.8
-          with:
-            github-token: ${{ secrets.GIT_TOKEN }}
-            push-branch: helm-charts
-            commit-message: "update chart repo"
-            files: /
+      - name: Commit and push
+        if: env.NO_DIFF != '1'
+        uses: github-actions-x/commit@v2.8
+        with:
+          github-token: ${{ secrets.GIT_TOKEN }}
+          push-branch: helm-charts
+          commit-message: "update chart repo"
+          files: /
  
       # - name: Commit changes
       #   if: env.NO_DIFF != '1'
