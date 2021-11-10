@@ -57,8 +57,8 @@ jobs:
 
       - name: Update charts index
         run: |
-        helm repo index --url https://runkecheng.github.io/helm-charts/ --merge index.yaml .
-        git add .
+          helm repo index --url https://runkecheng.github.io/helm-charts/ --merge index.yaml .
+          git add .
 
       - name: Check diffs
         run: |
