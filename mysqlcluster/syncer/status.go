@@ -119,8 +119,13 @@ func (s *StatusSyncer) Sync(ctx context.Context) (syncer.SyncResult, error) {
 
 	s.Status.ReadyNodes = len(readyNodes)
 	if s.Status.ReadyNodes == int(*s.Spec.Replicas) && int(*s.Spec.Replicas) != 0 {
-		s.Status.State = apiv1alpha1.ClusterReadyState
-		clusterCondition.Type = apiv1alpha1.ConditionReady
+		if err := s.reconcileRaftInXenon(s.Status.ReadyNodes); err != nil {
+			clusterCondition.Message = fmt.Sprintf("%s", err)
+			clusterCondition.Type = apiv1alpha1.ConditionError
+		} else {
+			s.Status.State = apiv1alpha1.ClusterReadyState
+			clusterCondition.Type = apiv1alpha1.ConditionReady
+		}
 	}
 
 	if len(s.Status.Conditions) == 0 {
@@ -163,9 +168,13 @@ func (s *StatusSyncer) updateClusterStatus() apiv1alpha1.ClusterCondition {
 	// When the cluster is ready or closed, the number of replicas changes,
 	// indicating that the cluster is updating nodes.
 	if oldState == apiv1alpha1.ClusterReadyState || oldState == apiv1alpha1.ClusterCloseState {
-		if int(*s.Spec.Replicas) != s.Status.ReadyNodes {
-			clusterCondition.Type = apiv1alpha1.ConditionUpdate
-			s.Status.State = apiv1alpha1.ClusterUpdateState
+		if int(*s.Spec.Replicas) > s.Status.ReadyNodes {
+			clusterCondition.Type = apiv1alpha1.ConditionScaleOut
+			s.Status.State = apiv1alpha1.ClusterScaleOutState
+			return clusterCondition
+		} else if int(*s.Spec.Replicas) < s.Status.ReadyNodes {
+			clusterCondition.Type = apiv1alpha1.ConditionScaleIn
+			s.Status.State = apiv1alpha1.ClusterScaleInState
 			return clusterCondition
 		}
 	}
@@ -299,6 +308,53 @@ func (s *StatusSyncer) updateNodeRaftStatus(node *apiv1alpha1.NodeStatus) error 
 	}
 	// update apiv1alpha1.NodeConditionLeader.
 	s.updateNodeCondition(node, int(apiv1alpha1.IndexLeader), isLeader)
+	return nil
+}
+
+func (s *StatusSyncer) reconcileRaftInXenon(readyNodes int) error {
+	expectRaftNodes := s.getExpectRaftNodes(readyNodes)
+	for _, nodeStatus := range s.Status.Nodes {
+		toRemove := utils.StringDiffIn(nodeStatus.RaftStatus.Nodes, expectRaftNodes)
+		if err := s.removeRaftNodes(nodeStatus.Name, toRemove); err != nil {
+			return err
+		}
+		toAdd := utils.StringDiffIn(expectRaftNodes, nodeStatus.RaftStatus.Nodes)
+		if err := s.addRaftNodes(nodeStatus.Name, toAdd); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *StatusSyncer) getExpectRaftNodes(readyNodes int) []string {
+	expectRaftNodes := []string{}
+	for i := 0; i < readyNodes; i++ {
+		expectRaftNodes = append(expectRaftNodes, fmt.Sprintf("%s:%d", s.GetPodHostName(i), utils.XenonPort))
+	}
+	return expectRaftNodes
+}
+
+func (s *StatusSyncer) removeRaftNodes(host string, toRemove []string) error {
+	if err := s.XenonExecutor.XenonPing(host); err != nil {
+		return err
+	}
+	for _, removeHost := range toRemove {
+		if err := s.XenonExecutor.ClusterRemove(host, removeHost); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *StatusSyncer) addRaftNodes(host string, toAdd []string) error {
+	if err := s.XenonExecutor.XenonPing(host); err != nil {
+		return err
+	}
+	for _, addHost := range toAdd {
+		if err := s.XenonExecutor.ClusterAdd(host, addHost); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
