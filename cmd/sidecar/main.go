@@ -28,6 +28,7 @@ import (
 	"github.com/radondb/radondb-mysql-kubernetes/utils"
 )
 
+// test ci2
 const (
 	// The name of the sidecar.
 	sidecarName = "sidecar"
