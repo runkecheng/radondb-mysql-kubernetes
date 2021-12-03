@@ -1,0 +1,121 @@
+apiVersion: mysql.radondb.com/v1alpha1
+kind: MysqlCluster
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"mysql.radondb.com/v1alpha1","kind":"MysqlCluster","metadata":{"annotations":{},"creationTimestamp":"2021-12-06T03:26:59Z","generation":1,"name":"sample","namespace":"default","resourceVersion":"398413","selfLink":"/apis/mysql.radondb.com/v1alpha1/namespaces/default/mysqlclusters/sample","uid":"2de83fbd-2efe-4a47-87a5-6eb25b73bf3e"},"spec":{"metricsOpts":{"enabled":false,"image":"prom/mysqld-exporter:v0.12.1","resources":{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"10m","memory":"32Mi"}}},"minAvailable":"50%","mysqlOpts":{"database":"radondb","initTokuDB":true,"password":"RadonDB@123","resources":{"limits":{"cpu":"500m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"256Mi"}},"rootHost":"localhost","rootPassword":"","user":"radondb_usr"},"mysqlVersion":"5.7","persistence":{"accessModes":["ReadWriteOnce"],"enabled":true,"size":"10Gi","storageClass":"local-storage"},"podPolicy":{"auditLogTail":false,"busyboxImage":"busybox:1.32","extraResources":{"requests":{"cpu":"10m","memory":"32Mi"}},"imagePullPolicy":"IfNotPresent","sidecarImage":"radondb/mysql-sidecar:latest","slowLogTail":false},"replicas":3,"xenonOpts":{"admitDefeatHearbeatCount":5,"electionTimeout":10000,"image":"radondb/xenon:1.1.5-alpha","resources":{"limits":{"cpu":"100m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"128Mi"}}}},"status":{"conditions":[{"lastTransitionTime":"2021-12-06T03:27:13Z","status":"True","type":"Initializing"},{"lastTransitionTime":"2021-12-06T03:27:17Z","message":"running \"VolumeBinding\" filter plugin for pod \"sample-mysql-0\": pod has unbound immediate PersistentVolumeClaims","reason":"Unschedulable","status":"True","type":"Error"}],"state":"Initializing"}}
+  creationTimestamp: "2021-12-06T07:31:46Z"
+  generation: 1
+  name: sample
+  namespace: default
+  resourceVersion: "495845"
+  selfLink: /apis/mysql.radondb.com/v1alpha1/namespaces/default/mysqlclusters/sample
+  uid: c4394751-2341-4349-9b6d-91dec6a7df10
+spec:
+  metricsOpts:
+    enabled: false
+    image: prom/mysqld-exporter:v0.12.1
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+  minAvailable: 50%
+  mysqlOpts:
+    database: radondb
+    initTokuDB: true
+    password: RadonDB@123
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    rootHost: localhost
+    rootPassword: ""
+    user: radondb_usr
+  mysqlVersion: "5.7"
+  persistence:
+    accessModes:
+    - ReadWriteOnce
+    enabled: true
+    size: 10Gi
+    storageClass: local-storage
+  podSpec:
+    auditLogTail: false
+    busyboxImage: busybox:1.32
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 20m
+        memory: 32Mi
+    sidecarImage: radondb/mysql-sidecar:v2.1.0
+    slowLogTail: false
+  replicas: 2
+  xenonOpts:
+    admitDefeatHearbeatCount: 5
+    electionTimeout: 10000
+    image: radondb/xenon:1.1.5-alpha
+    resources:
+      limits:
+        cpu: 100m
+        memory: 256Mi
+      requests:
+        cpu: 50m
+        memory: 128Mi
+status:
+  conditions:
+  - lastTransitionTime: "2021-12-06T07:32:00Z"
+    status: "True"
+    type: Initializing
+  - lastTransitionTime: "2021-12-06T07:36:35Z"
+    status: "True"
+    type: Ready
+  nodes:
+  - conditions:
+    - lastTransitionTime: "2021-12-06T07:33:35Z"
+      status: "False"
+      type: Lagged
+    - lastTransitionTime: "2021-12-06T07:33:35Z"
+      status: "True"
+      type: Leader
+    - lastTransitionTime: "2021-12-06T07:33:35Z"
+      status: "False"
+      type: ReadOnly
+    - lastTransitionTime: "2021-12-06T07:33:35Z"
+      status: "False"
+      type: Replicating
+    name: sample-mysql-0.sample-mysql.default
+  - conditions:
+    - lastTransitionTime: "2021-12-06T07:35:05Z"
+      status: "False"
+      type: Lagged
+    - lastTransitionTime: "2021-12-06T07:35:05Z"
+      status: "False"
+      type: Leader
+    - lastTransitionTime: "2021-12-06T07:35:05Z"
+      status: "True"
+      type: ReadOnly
+    - lastTransitionTime: "2021-12-06T07:35:05Z"
+      status: "True"
+      type: Replicating
+    name: sample-mysql-1.sample-mysql.default
+  - conditions:
+    - lastTransitionTime: "2021-12-06T07:36:35Z"
+      status: "False"
+      type: Lagged
+    - lastTransitionTime: "2021-12-06T07:36:35Z"
+      status: "False"
+      type: Leader
+    - lastTransitionTime: "2021-12-06T07:36:35Z"
+      status: "True"
+      type: ReadOnly
+    - lastTransitionTime: "2021-12-06T07:36:35Z"
+      status: "True"
+      type: Replicating
+    name: sample-mysql-2.sample-mysql.default
+  readyNodes: 3
+  state: Ready
