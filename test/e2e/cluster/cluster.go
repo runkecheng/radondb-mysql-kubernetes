@@ -41,6 +41,13 @@ var _ = Describe("MySQL Cluster E2E Tests", func() {
 	three := int32(3)
 	five := int32(5)
 
+	sysbenchOptions := framework.SysbenchOptions{
+		Timeout:   10 * time.Minute,
+		Threads:   8,
+		Tables:    4,
+		TableSize: 10000,
+	}
+
 	var (
 		cluster    *api.MysqlCluster
 		clusterKey types.NamespacedName
@@ -59,9 +66,14 @@ var _ = Describe("MySQL Cluster E2E Tests", func() {
 		By("testing the cluster readiness")
 		waitClusterReadiness(f, cluster)
 		Expect(f.Client.Get(context.TODO(), clusterKey, cluster)).To(Succeed(), "failed to get cluster %s", cluster.Name)
+
+		f.PrepareData(cluster, &sysbenchOptions)
 	})
 
 	It("scale out/in a cluster, 2 -> 3 -> 5 -> 3 -> 2", func() {
+		// Start oltp test before testing scale in/out.
+		f.RunOltpTest(cluster, &sysbenchOptions)
+
 		By("test cluster is ready after scale out 2 -> 3")
 		cluster.Spec.Replicas = &three
 		Expect(f.Client.Update(context.TODO(), cluster)).To(Succeed())
