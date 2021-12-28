@@ -21,6 +21,7 @@ import (
 
 	"github.com/radondb/radondb-mysql-kubernetes/test/e2e/framework"
 	_ "github.com/radondb/radondb-mysql-kubernetes/test/e2e/simplecase"
+	_ "github.com/radondb/radondb-mysql-kubernetes/test/e2e/cluster"
 )
 
 func init() {
