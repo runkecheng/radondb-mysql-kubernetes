@@ -32,4 +32,4 @@ jobs:
         with:
           push: true
           file: Dockerfile.sidecar
-          tags: radondb/mysql-sidecar:latest
+          tags: radondb/mysql-sidecar:v2.1.0
