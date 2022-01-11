@@ -52,9 +52,6 @@ func newCluster(name, ns string) *apiv1alpha1.MysqlCluster {
 			PodPolicy: apiv1alpha1.PodPolicy{
 				SidecarImage: TestContext.SidecarImage,
 			},
-			XenonOpts: apiv1alpha1.XenonOpts{
-				// Image: "runkecheng/xenon:t2.1.1",
-			},
 		},
 	}
 }
