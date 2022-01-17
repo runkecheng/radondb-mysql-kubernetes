@@ -28,6 +28,7 @@ import (
 
 	apiv1alpha1 "github.com/radondb/radondb-mysql-kubernetes/api/v1alpha1"
 	"github.com/radondb/radondb-mysql-kubernetes/test/e2e/framework"
+	"github.com/radondb/radondb-mysql-kubernetes/utils"
 )
 
 var _ = Describe("MySQL Cluster E2E Tests", Label("Cluster"), func() {
@@ -36,6 +37,8 @@ var _ = Describe("MySQL Cluster E2E Tests", Label("Cluster"), func() {
 		cluster    *apiv1alpha1.MysqlCluster
 		clusterKey *types.NamespacedName
 		sysbenchOptions  *framework.SysbenchOptions
+		leaderLabel map[string]string
+		followerLabel map[string]string
 		two        = int32(2)
 		three      = int32(3)
 		five       = int32(5)
@@ -131,6 +134,49 @@ var _ = Describe("MySQL Cluster E2E Tests", Label("Cluster"), func() {
 			})
 		})
 	})
+
+	When("Testing cluster HA", Label("HA"), func() {
+		leaderLabel = map[string]string{
+			"role": string(utils.Leader),
+		}
+		followerLabel = map[string]string{
+			"role": string(utils.Follower),
+		}
+
+		Context("Kill container", Label("Kill container", "Two"), func ()  {
+			Specify("Kill Leader`s MySQL", Label("MySQL", "Leader"), func() {
+				Expect(f.ContainerKill(leaderLabel, "mysql", *clusterKey)).To(Succeed())
+				fmt.Println("failover time: ", waitClusterFailover(f, *clusterKey))
+			})
+
+			Specify("Kill Leader`s Xenon", Label("Xenon", "Leader"), func() {
+				Expect(f.ContainerKill(leaderLabel, "xenon", *clusterKey)).To(Succeed())
+				fmt.Println("failover time: ", waitClusterFailover(f, *clusterKey))
+			})
+
+			Specify("Kill Follower`s MySQL", Label("MySQL", "Follower"), func() {
+				Expect(f.ContainerKill(followerLabel, "mysql", *clusterKey)).To(Succeed())
+				fmt.Println("failover time: ", waitClusterFailover(f, *clusterKey))
+			})
+
+			Specify("Kill Follower`s Xenon", Label("Xenon", "Follower"), func() {
+				Expect(f.ContainerKill(followerLabel, "xenon", *clusterKey)).To(Succeed())
+				fmt.Println("failover time: ", waitClusterFailover(f, *clusterKey))
+			})
+		})
+
+		Context("Kill pod", Label("Kill pod", "Two"), func ()  {
+			Specify("Kill Leader", Label("Leader"), func() {
+				Expect(f.PodKill(leaderLabel, *clusterKey)).To(Succeed())
+				fmt.Println("failover time: ", waitClusterFailover(f, *clusterKey))
+			})
+
+			Specify("Kill Follower", Label("Follower"), func() {
+				Expect(f.PodKill(leaderLabel, *clusterKey)).To(Succeed())
+				fmt.Println("failover time: ", waitClusterFailover(f, *clusterKey))
+			})
+		})
+	})
 })
 
 func getExistCluster(f *framework.Framework) string {
@@ -143,4 +189,27 @@ func getExistCluster(f *framework.Framework) string {
 		return existClusters.Items[0].Name
 	}
 	return ""
+}
+
+func waitClusterFailover(f *framework.Framework, clusterKey types.NamespacedName) time.Duration {
+	// Waiting for cluster discovery error.
+	Eventually(func() bool {
+		return isClusterReadiness(f, clusterKey)
+	}, framework.FAILOVERTIMEOUT, framework.FAILOVERPOLLING).ShouldNot(BeTrue(), "cluster cant discover error")
+
+	startTime := time.Now()
+	// Waiting for cluster recovery.
+	Eventually(func() bool {
+		return isClusterReadiness(f, clusterKey)
+	}, framework.FAILOVERTIMEOUT, framework.FAILOVERPOLLING).Should(BeTrue(), "cluster cannot failover in %s", framework.FAILOVERTIMEOUT)
+	return time.Since(startTime)
+}
+
+func isClusterReadiness(f *framework.Framework, clusterKey types.NamespacedName) bool {
+	cluster := &apiv1alpha1.MysqlCluster{}
+	f.Client.Get(context.TODO(), clusterKey, cluster)
+	if cluster.Status.State == apiv1alpha1.ClusterReadyState && framework.IsXenonReadiness(cluster) {
+		return true
+	}
+	return false
 }

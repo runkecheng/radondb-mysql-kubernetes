@@ -129,15 +129,15 @@ func (f *Framework) ClusterEventuallyRaftStatus(cluster *apiv1alpha1.MysqlCluste
 	Eventually(func() bool {
 		cl := &apiv1alpha1.MysqlCluster{}
 		f.Client.Get(context.TODO(), types.NamespacedName{Name: cluster.Name, Namespace: cluster.Namespace}, cl)
-		return isXenonReadiness(cl)
+		return IsXenonReadiness(cl)
 	}, TIMEOUT, POLLING).Should(BeTrue(), "Not ready xenon of cluster '%s'", cluster.Name)
 }
 
-// isXenonReadiness determine whether the role of the cluster is normal.
+// IsXenonReadiness determine whether the role of the cluster is normal.
 // 1. Cluster must have Leader node.
 // 2. Cluster can only have a Leader node.
 // 3. There are only two roles of Leader and Follower in the cluster.
-func isXenonReadiness(cluster *apiv1alpha1.MysqlCluster) bool {
+func IsXenonReadiness(cluster *apiv1alpha1.MysqlCluster) bool {
 	leader := []string{}
 	follower := []string{}
 	for _, node := range cluster.Status.Nodes {
@@ -252,17 +252,25 @@ func (f Framework) IsPodExist(roleLabel map[string]string, cluster *apiv1alpha1.
 	}
 	roleRequirement, err := labels.NewRequirement("role", selection.Equals, []string{roleLabel["role"]})
 	if err != nil {
-		fmt.Sprintln("failed to create roleRequirement")
+		fmt.Sprintln("Failed to create roleRequirement")
 		return false
 	}
 	lo.LabelSelector.Add(*roleRequirement)
 	podList, err := f.ClientSet.CoreV1().Pods(cluster.Namespace).List(context.TODO(), *lo.AsListOptions())
 	if err != nil {
-		fmt.Sprintln("failed to get pod")
+		fmt.Sprintln("Failed to get pod")
 		return false
 	}
 	if len(podList.Items) > 0 {
 		return true
 	}
 	return false
+}
+
+func (f Framework) WaitRoleAvailable(clusterKey types.NamespacedName, roleLabel map[string]string) {
+	Eventually(func() bool {
+		cl := &apiv1alpha1.MysqlCluster{}
+		f.Client.Get(context.TODO(), types.NamespacedName{Name: clusterKey.Name, Namespace: clusterKey.Namespace}, cl)
+		return f.IsPodExist(roleLabel, cl)
+	}, TIMEOUT, POLLING).Should(BeTrue(), "Failed to find pod labeled %v", roleLabel)
 }

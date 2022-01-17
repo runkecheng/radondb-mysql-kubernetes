@@ -5,6 +5,7 @@ go 1.16
 require (
 	bou.ke/monkey v1.0.2
 	github.com/blang/semver v3.5.1+incompatible
+	github.com/chaos-mesh/chaos-mesh/api/v1alpha1 v0.0.0-20220113152143-01f298ef393d
 	github.com/go-ini/ini v1.62.0
 	github.com/go-logr/logr v0.4.0
 	github.com/go-sql-driver/mysql v1.6.0

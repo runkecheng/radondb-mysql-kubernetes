@@ -51,6 +51,10 @@ const (
 	Poll = 2 * time.Second
 	// Time interval of checking cluster status.
 	POLLING = 2 * time.Second
+	// How often to check cluster status when failover.
+	FAILOVERPOLLING = 200 * time.Millisecond
+	// Time interval of cluster failover.
+	FAILOVERTIMEOUT = 2 * time.Minute
 	// Timeout time of checking cluster status.
 	TIMEOUT = time.Minute
 	// Timeout of deleting namespace.
