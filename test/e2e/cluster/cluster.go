@@ -19,6 +19,7 @@ package cluster
 import (
 	"context"
 	"fmt"
+	"time"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -34,6 +35,7 @@ var _ = Describe("MySQL Cluster E2E Tests", Label("Cluster"), func() {
 		f          *framework.Framework
 		cluster    *apiv1alpha1.MysqlCluster
 		clusterKey *types.NamespacedName
+		sysbenchOptions  *framework.SysbenchOptions
 		two        = int32(2)
 		three      = int32(3)
 		five       = int32(5)
@@ -77,6 +79,15 @@ var _ = Describe("MySQL Cluster E2E Tests", Label("Cluster"), func() {
 				cluster.Spec.Replicas = &two
 				Expect(f.Client.Update(context.TODO(), cluster)).To(Succeed())
 				f.WaitClusterReadiness(cluster)
+				
+				sysbenchOptions = &framework.SysbenchOptions{
+					Timeout:   10 * time.Minute,
+					Threads:   8,
+					Tables:    4,
+					TableSize: 10000,
+				}
+				f.PrepareData(cluster, sysbenchOptions)
+				f.RunOltpTest(cluster, sysbenchOptions)
 			})
 
 			Specify("Replicas: 2 -> 3", func() {
