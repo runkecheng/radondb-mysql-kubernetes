@@ -1,5 +1,5 @@
 /*
-Copyright 2015 The Kubernetes Authors.
+Copyright 2021 RadonDB.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import (
 
 	// Test case source.
 	// Comment out the package that you don't want to run.
+	_ "github.com/radondb/radondb-mysql-kubernetes/test/e2e/cluster"
 	_ "github.com/radondb/radondb-mysql-kubernetes/test/e2e/simplecase"
 )
 
