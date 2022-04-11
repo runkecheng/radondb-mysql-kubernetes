@@ -115,13 +115,12 @@ func (c *xenon) getVolumeMounts() []corev1.VolumeMount {
 			MountPath: utils.ScriptsVolumeMountPath,
 		},
 		{
-			Name:      utils.DataVolumeName,
-			MountPath: utils.XenonDataVolumeMountPath,
-			SubPath:   utils.XenonDataSubPath,
-		},
-		{
 			Name:      utils.XenonVolumeName,
 			MountPath: utils.XenonVolumeMountPath,
+		},
+		{
+			Name:      utils.DataVolumeName,
+			MountPath: utils.DataVolumeMountPath,
 		},
 		{
 			Name:      utils.SysLocalTimeZone,

@@ -344,7 +344,7 @@ func (cfg *Config) buildXenonConf() []byte {
 			"election-timeout": %d,
 			"admit-defeat-hearbeat-count": %d,
 			"heartbeat-timeout": %d,
-			"meta-datadir": "/var/lib/xenon/",
+			"meta-datadir": "/var/lib/mysql/xenon",
 			"semi-sync-degrade": true,
 			"purge-binlog-disabled": true,
 			"super-idle": false
