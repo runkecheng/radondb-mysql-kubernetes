@@ -2,33 +2,43 @@ apiVersion: v1
 entries:
   mysql-operator:
   - apiVersion: v2
+    appVersion: v3.0.1
+    created: "2022-04-14T10:28:37.07368488Z"
+    description: Open Source，High Availability Cluster，based on MySQL
+    digest: c1ddd7f14c3ed33da0fe118975d930bf9b9f0a7b3efb338cc31e93a812205fde
+    name: mysql-operator
+    type: application
+    urls:
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.1.tgz
+    version: 3.0.1
+  - apiVersion: v2
     appVersion: v3.0.0
-    created: "2022-03-21T09:59:06.842157947Z"
+    created: "2022-04-14T10:28:37.071622754Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 5a153358797f22aba327e53cbb8a2490e78d59915e848b3d3b29c5a50412b628
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.0.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.0.tgz
     version: 3.0.0
   - apiVersion: v2
     appVersion: v2.1.2
-    created: "2022-03-21T09:59:06.841255456Z"
+    created: "2022-04-14T10:28:37.070451038Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 3c35075705ef930719a9642e4ed4eccab5b26f8b1fa83efa520b1a152df3e524
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.1.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
     appVersion: v2.1.0
-    created: "2022-03-21T09:59:06.840295865Z"
+    created: "2022-04-14T10:28:37.069625628Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 86d0dff77f8bc9a645f4ee6d22d4500f630dca92bbdd9bec4a418e0339e196df
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.0.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2022-03-21T09:59:06.839208776Z"
+generated: "2022-04-14T10:28:37.068525714Z"
