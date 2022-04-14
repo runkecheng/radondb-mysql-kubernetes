@@ -17,6 +17,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [mysq57, mysql80]
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -30,10 +33,22 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push mysql57 sidecar
         id: docker_build
         uses: docker/build-push-action@v2
+        if: ${{ matrix.version }} == mysql57
         with:
           push: true
           file: Dockerfile.sidecar
-          tags: radondb/mysql-sidecar:${{ inputs.image_tag }}
+          tags: runkecheng/${{ matrix.version }}-sidecar:${{ inputs.image_tag }}
+
+      - name: Build and push mysql80 sidecar
+        id: docker_build
+        uses: docker/build-push-action@v2
+        if: ${{ matrix.version }} == mysql80
+        with:
+          push: true
+          file: Dockerfile.sidecar
+          tags: runkecheng/${{ matrix.version }}-sidecar:${{ inputs.image_tag }}
+          build-args: --build-arg XTRABACKUP_PKG=percona-xtrabackup-80
+
