@@ -2,36 +2,53 @@ name: Publish release
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'release version'
+        required: false 
+        type: string
 
 jobs: 
-    update_release_draft:
-      uses: runkecheng/radondb-mysql-kubernetes/.github/workflows/release_drafter.yml@main
-      secrets:
-        git_token: ${{ secrets.GITHUB_TOKEN }}
-    
+    get_release_version:
+      steps:
+        - name: draft release
+          id: draft_release 
+          if: ${{ github.event.inputs.version }} == ""
+          uses: runkecheng/radondb-mysql-kubernetes/.github/workflows/release_drafter.yml@main
+          secrets:
+            git_token: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: save draft version to env
+          if: ${{ github.event.inputs.version }} == ""
+          run: |
+            echo "version=${{ steps.draft_release.outputs.version }}" >> $GITHUB_ENV
+
+        - name: save input version to env
+          if: ${{ github.event.inputs.version }} != ""
+          run: |
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+
+
     build_operator:
       uses: runkecheng/radondb-mysql-kubernetes/.github/workflows/build_operator_image.yml@main
-      needs: update_release_draft
+      needs: get_release_version
       with:
-        image_tag: ${{ needs.update_release_draft.outputs.version }}
+        image_tag: ${{ env.version }}
       secrets: 
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
     build_sidecar:
       uses: runkecheng/radondb-mysql-kubernetes/.github/workflows/build_sidecar_image.yml@main
-      needs: update_release_draft
+      needs: get_release_version
       with:
-        image_tag: ${{ needs.update_release_draft.outputs.version }} 
+        image_tag: ${{ env.version }} 
       secrets: 
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
     publish_chart:
       uses: runkecheng/radondb-mysql-kubernetes/.github/workflows/publish_charts.yml@main
-      needs: update_release_draft
+      needs: get_release_version
       with:
-        version: ${{ needs.update_release_draft.outputs.version }}
-
-# test
-
+        version: ${{ env.version }}
