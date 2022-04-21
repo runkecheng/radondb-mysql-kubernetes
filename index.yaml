@@ -3,9 +3,9 @@ entries:
   mysql-operator:
   - apiVersion: v2
     appVersion: v3.0.2
-    created: "2022-04-21T02:42:38.414020814Z"
+    created: "2022-04-21T02:48:01.442804586Z"
     description: Open Source，High Availability Cluster，based on MySQL
-    digest: ef01df99a09aa293c2984ad7a83f5870052b77c4fa88547f78fadc3c0110d07b
+    digest: 8ff1b37143f5b3ec672db5de8a7d575ed8a351fb90d75c944183ed226828806e
     name: mysql-operator
     type: application
     urls:
@@ -13,7 +13,7 @@ entries:
     version: 3.0.2
   - apiVersion: v2
     appVersion: v3.0.1
-    created: "2022-04-21T02:42:38.413173427Z"
+    created: "2022-04-21T02:48:01.441114968Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 680fc2ed46e8473cda3819167d48c7751b735e7fc89bc6e7fb6ce98f333b4045
     name: mysql-operator
@@ -23,7 +23,7 @@ entries:
     version: 3.0.1
   - apiVersion: v2
     appVersion: v3.0.0
-    created: "2022-04-21T02:42:38.41230064Z"
+    created: "2022-04-21T02:48:01.439876155Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 5a153358797f22aba327e53cbb8a2490e78d59915e848b3d3b29c5a50412b628
     name: mysql-operator
@@ -33,7 +33,7 @@ entries:
     version: 3.0.0
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2022-04-21T02:42:38.411407554Z"
+    created: "2022-04-21T02:48:01.439062247Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 2b7337c3061d244da7b11c8bb8215aee5e8cf3277a4e8d68e35fb1df64c2de19
     name: mysql-operator
@@ -43,7 +43,7 @@ entries:
     version: 2.2.0
   - apiVersion: v2
     appVersion: v2.2.0-beta
-    created: "2022-04-21T02:42:38.410515767Z"
+    created: "2022-04-21T02:48:01.438245538Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: b63e01d9dd729f3f3373894f99095efb84f53ec33eb1e3a1a32b8497a5230496
     name: mysql-operator
@@ -53,7 +53,7 @@ entries:
     version: 2.2.0-beta
   - apiVersion: v2
     appVersion: v2.2.0-alpha
-    created: "2022-04-21T02:42:38.408995091Z"
+    created: "2022-04-21T02:48:01.437432729Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: f4e7d066a6019050a6b6f44146b600892bb8e64aaf6f1f0018149322660f772b
     name: mysql-operator
@@ -63,7 +63,7 @@ entries:
     version: 2.2.0-alpha
   - apiVersion: v2
     appVersion: v2.1.2
-    created: "2022-04-21T02:42:38.407480514Z"
+    created: "2022-04-21T02:48:01.43657062Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 3c35075705ef930719a9642e4ed4eccab5b26f8b1fa83efa520b1a152df3e524
     name: mysql-operator
@@ -73,7 +73,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: v2.1.0
-    created: "2022-04-21T02:42:38.406556928Z"
+    created: "2022-04-21T02:48:01.435226906Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 86d0dff77f8bc9a645f4ee6d22d4500f630dca92bbdd9bec4a418e0339e196df
     name: mysql-operator
@@ -81,4 +81,4 @@ entries:
     urls:
     - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-21T02:42:38.404844254Z"
+generated: "2022-04-21T02:48:01.434229795Z"
