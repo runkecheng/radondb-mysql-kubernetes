@@ -1,6 +1,7 @@
 name: Code check
 
 on:   
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths-ignore:
@@ -30,6 +31,8 @@ jobs:
 
     - name: Check out source code
       uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
 
     - name: Run go fmt
       run: d="$(gofmt -d ../../)" && if [ -n "$d" ]; then echo "format error:" ; echo "$d"; exit 1; fi      
@@ -44,6 +47,8 @@ jobs:
 
     - name: Check out source code
       uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
 
     - name: Recreate crd
       run: make manifests
@@ -61,6 +66,8 @@ jobs:
 
     - name: Check out source code
       uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
 
     - name: Install staticcheck
       run: go install honnef.co/go/tools/cmd/staticcheck@2020.2.1
@@ -68,7 +75,7 @@ jobs:
     - name: Run staticcheck
       run: staticcheck -f stylish ./... 
 
-  gonyet:
+  shadow:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Go
@@ -79,8 +86,8 @@ jobs:
     - name: Check out source code
       uses: actions/checkout@v1
 
-    - name: Install go nyet
+    - name: Install shadow tool
       run: go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest
 
     - name: Run go nyet
-      run: d="$(go vet -vettool=$(which shadow) ./...)" && if [ -n "$d" ]; then echo "Shadowed variables:" ; echo "$d"; exit 1; fi
+      run: d="$(/home/runner/go/bin/shadow ./...)" && if [ -n "$d" ]; then echo "Shadowed variables:" ; echo "$d"; exit 1; fi
