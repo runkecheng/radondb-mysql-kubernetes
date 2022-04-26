@@ -37,11 +37,11 @@ func RunTakeBackupCommand(cfg *Config) error {
 	xtrabackup.Stderr = os.Stderr
 	xcloud.Stderr = os.Stderr
 
-	if err := xtrabackup.Start(); err != nil {
+	if err = xtrabackup.Start(); err != nil {
 		log.Error(err, "failed to start xtrabackup command")
 		return err
 	}
-	if err := xcloud.Start(); err != nil {
+	if err = xcloud.Start(); err != nil {
 		log.Error(err, "fail start xcloud ")
 		return err
 	}

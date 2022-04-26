@@ -137,7 +137,8 @@ func NewInitConfig() *Config {
 	if ver := getEnvValue("MYSQL_VERSION"); ver == utils.InvalidMySQLVersion {
 		panic("invalid mysql version, currently we only support 5.7 or 8.0")
 	} else {
-		mysqlSemVer, err := semver.Parse(ver)
+		var err error
+		mysqlSemVer, err = semver.Parse(ver)
 		if err != nil {
 			log.Info("semver get from MYSQL_VERSION is invalid", "semver: ", mysqlSemVer)
 			panic(err)
@@ -520,10 +521,10 @@ func (cfg *Config) executeS3Restore(path string) error {
 	}
 	xbstream.Stderr = os.Stderr
 	xcloud.Stderr = os.Stderr
-	if err := xcloud.Start(); err != nil {
+	if err = xcloud.Start(); err != nil {
 		return fmt.Errorf("failed to xcloud start : %s", err)
 	}
-	if err := xbstream.Start(); err != nil {
+	if err = xbstream.Start(); err != nil {
 		return fmt.Errorf("failed to xbstream start : %s", err)
 	}
 	// Make error channels.
@@ -587,13 +588,13 @@ func (cfg *Config) executeCloneRestore() error {
 	// Xtrabackup prepare and apply-log-only.
 	cmd := exec.Command(xtrabackupCommand, "--defaults-file="+utils.MysqlConfVolumeMountPath+"/my.cnf", "--use-memory=3072M", "--prepare", "--apply-log-only", "--target-dir=/backup/"+cfg.XRestoreFrom)
 	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
+	if err = cmd.Run(); err != nil {
 		return fmt.Errorf("failed to xtrabackup prepare apply-log-only : %s", err)
 	}
 	// Xtrabackup Prepare.
 	cmd = exec.Command(xtrabackupCommand, "--defaults-file="+utils.MysqlConfVolumeMountPath+"/my.cnf", "--use-memory=3072M", "--prepare", "--target-dir=/backup/"+cfg.XRestoreFrom)
 	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
+	if err = cmd.Run(); err != nil {
 		return fmt.Errorf("failed to xtrabackup prepare : %s", err)
 	}
 	// Get the backup binlong info.

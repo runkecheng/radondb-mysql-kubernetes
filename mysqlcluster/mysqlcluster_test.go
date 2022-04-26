@@ -542,8 +542,8 @@ func TestEnsureMysqlConf(t *testing.T) {
 			&testMysqlCase,
 		}
 		testCase.EnsureMysqlConf()
-		wantSize := strconv.FormatUint(uint64(600*float64(mb)), 10)
-		wantInstance := strconv.Itoa(int(1))
+		wantSize = strconv.FormatUint(uint64(600*float64(mb)), 10)
+		wantInstance = strconv.Itoa(int(1))
 		assert.Equal(t, wantSize, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_size"])
 		assert.Equal(t, wantInstance, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_instances"])
 	}
@@ -562,8 +562,8 @@ func TestEnsureMysqlConf(t *testing.T) {
 			&testMysqlCase,
 		}
 		testCase.EnsureMysqlConf()
-		wantSize := strconv.FormatUint(uint64(1.6*float64(gb)), 10)
-		wantInstance := strconv.Itoa(int(1))
+		wantSize = strconv.FormatUint(uint64(1.6*float64(gb)), 10)
+		wantInstance = strconv.Itoa(int(1))
 		assert.Equal(t, wantSize, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_size"])
 		assert.Equal(t, wantInstance, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_instances"])
 	}
@@ -581,8 +581,8 @@ func TestEnsureMysqlConf(t *testing.T) {
 			&testMysqlCase,
 		}
 		testCase.EnsureMysqlConf()
-		wantSize := strconv.FormatUint(uint64(1.2*float64(gb)), 10)
-		wantInstance := strconv.Itoa(int(1))
+		wantSize = strconv.FormatUint(uint64(1.2*float64(gb)), 10)
+		wantInstance = strconv.Itoa(int(1))
 		assert.Equal(t, wantSize, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_size"])
 		assert.Equal(t, wantInstance, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_instances"])
 	}
@@ -602,8 +602,8 @@ func TestEnsureMysqlConf(t *testing.T) {
 			&testMysqlCase,
 		}
 		testCase.EnsureMysqlConf()
-		wantSize := strconv.FormatUint(uint64(2*float64(gb)), 10)
-		wantInstance := strconv.Itoa(int(2))
+		wantSize = strconv.FormatUint(uint64(2*float64(gb)), 10)
+		wantInstance = strconv.Itoa(int(2))
 		assert.Equal(t, wantSize, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_size"])
 		assert.Equal(t, wantInstance, testCase.Spec.MysqlOpts.MysqlConf["innodb_buffer_pool_instances"])
 	}

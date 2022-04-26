@@ -127,7 +127,7 @@ func runInitCommand(cfg *Config) error {
 
 	if exists, _ := checkIfPathExists(dataPath); exists {
 		// remove lost+found.
-		if err := os.RemoveAll(dataPath + "/lost+found"); err != nil {
+		if err = os.RemoveAll(dataPath + "/lost+found"); err != nil {
 			return fmt.Errorf("removing lost+found: %s", err)
 		}
 		// chown -R mysql:mysql /var/lib/mysql.
@@ -149,7 +149,7 @@ func runInitCommand(cfg *Config) error {
 		return fmt.Errorf("failed to build client.conf: %s", err)
 	}
 	// save client.conf to /etc/mysql.
-	if err := clientConfig.SaveTo(path.Join(clientConfPath)); err != nil {
+	if err = clientConfig.SaveTo(path.Join(clientConfPath)); err != nil {
 		return fmt.Errorf("failed to save client.conf: %s", err)
 	}
 

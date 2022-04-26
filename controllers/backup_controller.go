@@ -84,7 +84,7 @@ func (r *BackupReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 	savedBackup := backup.Unwrap().DeepCopy()
 
 	jobSyncer := backupSyncer.NewJobSyncer(r.Client, r.Scheme, backup)
-	if err := syncer.Sync(ctx, jobSyncer, r.Recorder); err != nil {
+	if err = syncer.Sync(ctx, jobSyncer, r.Recorder); err != nil {
 		return reconcile.Result{}, err
 	}
 

@@ -67,3 +67,20 @@ jobs:
 
     - name: Run staticcheck
       run: staticcheck -f stylish ./... 
+
+  gonyet:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Check out source code
+      uses: actions/checkout@v1
+
+    - name: Install go nyet
+      run: go get github.com/barakmich/go-nyet
+
+    - name: Run go nyet
+      run: d="$(go-nyet ./...)" && if [ -n "$d" ]; then echo "Shadowed variables:" ; echo "$d"; exit 1; fi
