@@ -80,7 +80,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Install go nyet
-      run: go get github.com/barakmich/go-nyet
+      run: go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest
 
     - name: Run go nyet
-      run: d="$(go-nyet ./...)" && if [ -n "$d" ]; then echo "Shadowed variables:" ; echo "$d"; exit 1; fi
+      run: d="$(go vet -vettool=$(which shadow) ./...)" && if [ -n "$d" ]; then echo "Shadowed variables:" ; echo "$d"; exit 1; fi
