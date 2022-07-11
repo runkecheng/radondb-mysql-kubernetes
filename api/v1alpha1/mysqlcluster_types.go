@@ -145,6 +145,10 @@ type MysqlOpts struct {
 	// +optional
 	MysqlConf MysqlConf `json:"mysqlConf,omitempty"`
 
+	// The configmap which save the user customized initSQL.
+	// There must be a key named init.sql in configmap and the value is the initSQL.
+	InitSQL string `json:"initSQL,omitempty"`
+
 	// The compute resource requirements.
 	// +optional
 	// +kubebuilder:default:={limits: {cpu: "500m", memory: "1Gi"}, requests: {cpu: "100m", memory: "256Mi"}}
