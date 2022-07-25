@@ -3,112 +3,112 @@ entries:
   mysql-operator:
   - apiVersion: v2
     appVersion: v3.0.2
-    created: "2022-07-25T07:38:26.582050771Z"
+    created: "2022-07-25T07:46:11.468465338Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 8ff1b37143f5b3ec672db5de8a7d575ed8a351fb90d75c944183ed226828806e
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.2.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.2.tgz
     version: 3.0.2
   - apiVersion: v2
     appVersion: v3.0.1
-    created: "2022-07-25T07:38:26.581146771Z"
+    created: "2022-07-25T07:46:11.467575436Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 680fc2ed46e8473cda3819167d48c7751b735e7fc89bc6e7fb6ce98f333b4045
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.1.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.1.tgz
     version: 3.0.1
   - apiVersion: v2
     appVersion: v3.0.0
-    created: "2022-07-25T07:38:26.58023307Z"
+    created: "2022-07-25T07:46:11.466761934Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 5a153358797f22aba327e53cbb8a2490e78d59915e848b3d3b29c5a50412b628
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.0.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-3.0.0.tgz
     version: 3.0.0
   - apiVersion: v2
     appVersion: v2.3.0-rc
-    created: "2022-07-25T07:38:26.57932327Z"
+    created: "2022-07-25T07:46:11.465861932Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 0ee834796ef8fa789bf6d580a18b0eaf7737f7b8f121b43677d11cde618073df
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-2.3.0-rc.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-2.3.0-rc.tgz
     version: 2.3.0-rc
   - apiVersion: v2
     appVersion: v2.2.1
-    created: "2022-07-25T07:38:26.578329269Z"
+    created: "2022-07-25T07:46:11.46497963Z"
     description: Open Source，High Availability Cluster，based on MySQL
-    digest: 8f930dd042c07e2a511964c3d1006dad3e477943419f2d8800142be5c4cd7b87
+    digest: 7a918f2efddd80b9fae5b560c2477453e30670535695d31e0d2380d9ebada6cb
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.1.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.1.tgz
     version: 2.2.1
   - apiVersion: v2
     appVersion: v2.2.1-rc
-    created: "2022-07-25T07:38:26.576755268Z"
+    created: "2022-07-25T07:46:11.463908728Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: b9765275d784766fe86643928c1e42b636afe0854da0f2fc7d76ee52d6b095d6
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.1-rc.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.1-rc.tgz
     version: 2.2.1-rc
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2022-07-25T07:38:26.575203767Z"
+    created: "2022-07-25T07:46:11.463018426Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: c2981645ff445aca577725373111727e303692206ebdde9649006858c897fd58
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.0.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.0.tgz
     version: 2.2.0
   - apiVersion: v2
     appVersion: v2.2.0-beta
-    created: "2022-07-25T07:38:26.574316666Z"
+    created: "2022-07-25T07:46:11.461754824Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: b63e01d9dd729f3f3373894f99095efb84f53ec33eb1e3a1a32b8497a5230496
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.0-beta.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.0-beta.tgz
     version: 2.2.0-beta
   - apiVersion: v2
     appVersion: v2.2.0-alpha
-    created: "2022-07-25T07:38:26.573355466Z"
+    created: "2022-07-25T07:46:11.45982772Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: f4e7d066a6019050a6b6f44146b600892bb8e64aaf6f1f0018149322660f772b
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.0-alpha.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-2.2.0-alpha.tgz
     version: 2.2.0-alpha
   - apiVersion: v2
     appVersion: v2.1.2
-    created: "2022-07-25T07:38:26.572425465Z"
+    created: "2022-07-25T07:46:11.458923318Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 3c35075705ef930719a9642e4ed4eccab5b26f8b1fa83efa520b1a152df3e524
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.1.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
     appVersion: v2.1.0
-    created: "2022-07-25T07:38:26.571087364Z"
+    created: "2022-07-25T07:46:11.457984616Z"
     description: Open Source，High Availability Cluster，based on MySQL
     digest: 86d0dff77f8bc9a645f4ee6d22d4500f630dca92bbdd9bec4a418e0339e196df
     name: mysql-operator
     type: application
     urls:
-    - https://runkecheng.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.0.tgz
+    - https://radondb.github.io/radondb-mysql-kubernetes/mysql-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2022-07-25T07:38:26.569767064Z"
+generated: "2022-07-25T07:46:11.456770014Z"
