@@ -13,6 +13,7 @@ require (
 	github.com/imdario/mergo v0.3.12
 	github.com/onsi/ginkgo/v2 v2.0.0
 	github.com/onsi/gomega v1.17.0
+	github.com/openkruise/kruise-api v1.2.0
 	github.com/presslabs/controller-util v0.3.0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v1.1.3

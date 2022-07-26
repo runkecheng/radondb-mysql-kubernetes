@@ -22,7 +22,8 @@ import (
 
 	"github.com/presslabs/controller-util/meta"
 	"github.com/presslabs/controller-util/syncer"
-	appsv1 "k8s.io/api/apps/v1"
+	// appsv1 "k8s.io/api/apps/v1"
+	kappsv1 "github.com/openkruise/kruise-api/apps/v1beta1"
 	corev1 "k8s.io/api/core/v1"
 	policyv1beta1 "k8s.io/api/policy/v1beta1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -58,6 +59,7 @@ type MysqlClusterReconciler struct {
 // +kubebuilder:rbac:groups=mysql.radondb.com,resources=mysqlclusters/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=mysql.radondb.com,resources=mysqlclusters/finalizers,verbs=update
 // +kubebuilder:rbac:groups=apps,resources=statefulsets,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apps.kruise.io,resources=statefulsets,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=configmaps;secrets;services;pods;persistentvolumeclaims,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;create;patch
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update
@@ -161,7 +163,7 @@ func (r *MysqlClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request
 func (r *MysqlClusterReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&apiv1alpha1.MysqlCluster{}).
-		Owns(&appsv1.StatefulSet{}).
+		Owns(&kappsv1.StatefulSet{}).
 		Owns(&corev1.ConfigMap{}).
 		Owns(&corev1.Service{}).
 		Owns(&rbacv1.Role{}).

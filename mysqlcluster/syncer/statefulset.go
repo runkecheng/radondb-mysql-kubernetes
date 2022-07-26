@@ -28,7 +28,9 @@ import (
 	"github.com/presslabs/controller-util/mergo/transformers"
 	"github.com/presslabs/controller-util/syncer"
 
-	appsv1 "k8s.io/api/apps/v1"
+	kappspub "github.com/openkruise/kruise-api/apps/pub"
+	kappsv1 "github.com/openkruise/kruise-api/apps/v1beta1"
+	k8sappsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/equality"
 	k8serrors "k8s.io/apimachinery/pkg/api/errors"
@@ -59,7 +61,7 @@ type StatefulSetSyncer struct {
 
 	cli client.Client
 
-	sfs *appsv1.StatefulSet
+	sfs *kappsv1.StatefulSet
 
 	// Configmap resourceVersion.
 	cmRev string
@@ -80,9 +82,9 @@ func NewStatefulSetSyncer(cli client.Client, c *mysqlcluster.MysqlCluster, cmRev
 	return &StatefulSetSyncer{
 		MysqlCluster: c,
 		cli:          cli,
-		sfs: &appsv1.StatefulSet{
+		sfs: &kappsv1.StatefulSet{
 			TypeMeta: metav1.TypeMeta{
-				APIVersion: "v1",
+				APIVersion: "apps.kruise.io/v1beta1",
 				Kind:       "StatefulSet",
 			},
 			ObjectMeta: metav1.ObjectMeta{
@@ -370,10 +372,20 @@ func (s *StatefulSetSyncer) mutate() error {
 	s.sfs.Spec.ServiceName = s.GetNameForResource(utils.StatefulSet)
 	s.sfs.Spec.Replicas = s.Spec.Replicas
 	s.sfs.Spec.Selector = metav1.SetAsLabelSelector(s.GetSelectorLabels())
-	s.sfs.Spec.UpdateStrategy = appsv1.StatefulSetUpdateStrategy{
-		Type: appsv1.OnDeleteStatefulSetStrategyType,
+	s.sfs.Spec.UpdateStrategy = kappsv1.StatefulSetUpdateStrategy{
+		Type: k8sappsv1.RollingUpdateStatefulSetStrategyType,
+		RollingUpdate: &kappsv1.RollingUpdateStatefulSetStrategy{
+			PodUpdatePolicy: kappsv1.InPlaceIfPossiblePodUpdateStrategyType,
+			InPlaceUpdateStrategy: &kappspub.InPlaceUpdateStrategy{
+				GracePeriodSeconds: 5,
+			},
+		},
 	}
-
+	s.sfs.Spec.Template.Spec.ReadinessGates = []corev1.PodReadinessGate{
+		{
+			ConditionType: kappspub.InPlaceUpdateReady,
+		},
+	}
 	s.sfs.Spec.Template.ObjectMeta.Labels = s.GetLabels()
 	for k, v := range s.Spec.PodPolicy.Labels {
 		s.sfs.Spec.Template.ObjectMeta.Labels[k] = v
@@ -588,7 +600,7 @@ func (s *StatefulSetSyncer) backupIsRunning(ctx context.Context) (bool, error) {
 }
 
 // Updates to statefulset spec for fields other than 'replicas', 'template', and 'updateStrategy' are forbidden.
-func (s *StatefulSetSyncer) sfsUpdated(existing *appsv1.StatefulSet) bool {
+func (s *StatefulSetSyncer) sfsUpdated(existing *kappsv1.StatefulSet) bool {
 	var resizeVolume = false
 	// TODO: this is a temporary workaround until we figure out a better way to do this.
 	if len(existing.Spec.VolumeClaimTemplates) > 0 && len(s.sfs.Spec.VolumeClaimTemplates) > 0 {
