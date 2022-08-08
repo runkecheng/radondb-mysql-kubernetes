@@ -94,7 +94,7 @@ func TestGetXenonPorts(t *testing.T) {
 
 func TestGetXenonLivenessProbe(t *testing.T) {
 	livenessProbe := &corev1.Probe{
-		Handler: corev1.Handler{
+		ProbeHandler: corev1.ProbeHandler{
 			Exec: &corev1.ExecAction{
 				Command: []string{
 					"sh",
@@ -114,7 +114,7 @@ func TestGetXenonLivenessProbe(t *testing.T) {
 
 func TestGetXenonReadinessProbe(t *testing.T) {
 	readinessProbe := &corev1.Probe{
-		Handler: corev1.Handler{
+		ProbeHandler: corev1.ProbeHandler{
 			Exec: &corev1.ExecAction{
 				Command: []string{"sh", "-c", "xenoncli xenon ping"},
 			},

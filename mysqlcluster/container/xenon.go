@@ -74,7 +74,7 @@ func (c *xenon) getPorts() []corev1.ContainerPort {
 // getLivenessProbe get the container livenessProbe.
 func (c *xenon) getLivenessProbe() *corev1.Probe {
 	return &corev1.Probe{
-		Handler: corev1.Handler{
+		ProbeHandler: corev1.ProbeHandler{
 			Exec: &corev1.ExecAction{
 				Command: []string{
 					"sh",
@@ -94,7 +94,7 @@ func (c *xenon) getLivenessProbe() *corev1.Probe {
 // getReadinessProbe get the container readinessProbe.
 func (c *xenon) getReadinessProbe() *corev1.Probe {
 	return &corev1.Probe{
-		Handler: corev1.Handler{
+		ProbeHandler: corev1.ProbeHandler{
 			Exec: &corev1.ExecAction{
 				Command: []string{"sh", "-c", "xenoncli xenon ping"},
 			},
